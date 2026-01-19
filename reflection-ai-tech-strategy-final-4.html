@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflection AI Tech Strategy</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo } = React;
+
+        // Inline SVG Icons
+        const Search = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+            </svg>
+        );
+        const ChevronDown = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        );
+        const ChevronRight = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        );
+        const Users = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+        );
+        const Target = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+        );
+        const Lightbulb = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M9 18h6"></path><path d="M10 22h4"></path>
+                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1.33.64 2.5 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
+            </svg>
+        );
+        const CheckCircle2 = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+            </svg>
+        );
+        const Shield = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+        );
+        const Code = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+        );
+        const Copy = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        );
+        const Check = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        );
+        const ExternalLink = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+        );
+
+        const ReflectionAITechStrategy = () => {
+          const [selectedIndustry, setSelectedIndustry] = useState(null);
+          const [expandedUseCase, setExpandedUseCase] = useState(null);
+          const [searchTerm, setSearchTerm] = useState('');
+          const [copiedText, setCopiedText] = useState(null);
+
+          const gtmData = {
+            technology: {
+              name: 'Technology & Engineering',
+              color: 'cyan',
+              description: 'Software Companies, Developer Tools, Engineering Teams',
+              keyConsiderations: [
+                'Open source transparency and community trust',
+                'Self-hosting for cost control and data sovereignty',
+                'Model customization and fine-tuning capabilities',
+                'No vendor lock-in or API rate limits'
+              ],
+              useCases: [
+                {
+                  id: 'tech-1',
+                  name: 'Autonomous Code Development & Review',
+                  shortPitch: 'AI coding agents that understand your entire codebase',
+                  problemSolved: 'Engineering teams are bottlenecked by code review cycles, repetitive coding tasks, and technical debt. Closed-source AI tools create vendor lock-in and can\'t be customized for proprietary codebases.',
+                  howUsed: [
+                    'Deploy self-hosted autonomous coding agents that understand your full repository context',
+                    'Automate code generation, refactoring, and test creation with full transparency',
+                    'Review pull requests with AI agents trained on your coding standards',
+                    'Fine-tune models on your internal code patterns and architecture decisions'
+                  ],
+                  whyReflection: [
+                    'Open source model allows inspection and customization for your tech stack',
+                    'Self-hosting eliminates concerns about proprietary code leaving your infrastructure',
+                    'Fine-tuning capabilities enable adaptation to company-specific patterns',
+                    'No API costs or rate limits - run unlimited inference on your hardware',
+                    'Community-driven improvements benefit from collective development experience'
+                  ],
+                  buyerPersonas: [
+                    { title: 'VP of Engineering / CTO', level: 'C-Suite/VP', technical: true },
+                    { title: 'Engineering Managers', level: 'Director/Manager', technical: true },
+                    { title: 'DevOps / Platform Engineering Leads', level: 'IC/Lead', technical: true }
+                  ],
+                  gtmScenario: '"A Series B startup uses Reflection AI\'s self-hosted coding agents to accelerate development. By fine-tuning on their internal codebase and running inference locally, they achieve 40% faster feature delivery with zero API costs and complete code privacy. The open source model gives their security team full transparency."',
+                  keyMetrics: '40-60% increase in development velocity; Zero API costs at scale; 100% code privacy',
+                  competitiveEdge: 'Unlike GitHub Copilot or closed alternatives, Reflection AI can be self-hosted, fully customized, and inspected. No code ever leaves your infrastructure.'
+                },
+                {
+                  id: 'tech-2',
+                  name: 'Custom AI Product Development',
+                  shortPitch: 'Build AI-powered products on open source foundation',
+                  problemSolved: 'Companies building AI-powered products face vendor lock-in, unpredictable API costs, and inability to customize closed models. They need full control over their AI stack.',
+                  howUsed: [
+                    'Build customer-facing AI features on self-hosted Reflection AI models',
+                    'Fine-tune models for domain-specific applications and use cases',
+                    'Deploy on-premise or in your cloud for complete control',
+                    'Integrate with existing products without third-party API dependencies'
+                  ],
+                  whyReflection: [
+                    'Open source license allows commercial use and distribution',
+                    'Self-hosting eliminates unpredictable API costs as you scale',
+                    'Fine-tuning enables competitive differentiation vs. generic AI',
+                    'Full model transparency for debugging and optimization',
+                    'Western-developed alternative to Chinese open source models'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Chief Product Officer', level: 'C-Suite', technical: false },
+                    { title: 'Head of AI/ML', level: 'VP/Director', technical: true },
+                    { title: 'Product Engineering Leads', level: 'Director/Manager', technical: true }
+                  ],
+                  gtmScenario: '"A legal tech company builds document analysis features using Reflection AI. By self-hosting and fine-tuning on legal documents, they achieve 95% accuracy vs. 60% with generic models. Zero API costs means profitable unit economics. Customer data never touches third-party servers."',
+                  keyMetrics: 'Predictable costs at any scale; 2-3x improvement via fine-tuning; 100% data sovereignty',
+                  competitiveEdge: 'Open source + self-hosting = no vendor lock-in. Build your competitive moat with custom AI, not rented intelligence.'
+                },
+                {
+                  id: 'tech-3',
+                  name: 'Developer Productivity Platform',
+                  shortPitch: 'Enterprise coding assistant fully under your control',
+                  problemSolved: 'Enterprise engineering teams need AI coding assistance but face security concerns, compliance requirements, and budget constraints with cloud-based solutions.',
+                  howUsed: [
+                    'Deploy Reflection AI within enterprise VPC/on-premise infrastructure',
+                    'Provide AI coding assistance to all developers without data leaving the network',
+                    'Customize for internal frameworks, libraries, and architectural patterns',
+                    'Track usage and ROI without exposing sensitive metrics to vendors'
+                  ],
+                  whyReflection: [
+                    'Self-hosted deployment meets strictest enterprise security requirements',
+                    'Open source allows security team audit and verification',
+                    'Unlimited usage without per-seat or API-call pricing',
+                    'Fine-tune on internal documentation and code standards',
+                    'No risk of training data contamination from other customers'
+                  ],
+                  buyerPersonas: [
+                    { title: 'CTO / VP of Engineering', level: 'C-Suite/VP', technical: true },
+                    { title: 'CISO / Head of Security', level: 'C-Suite/VP', technical: true },
+                    { title: 'Developer Experience Teams', level: 'Director/Manager', technical: true }
+                  ],
+                  gtmScenario: '"A Fortune 500 tech company deploys Reflection AI for 2,000 engineers. Self-hosting on internal infrastructure provides unlimited AI coding assistance for a flat infrastructure cost vs. $500K+/year for closed alternatives. Security team has full model transparency. 30% productivity improvement."',
+                  keyMetrics: '30-50% developer productivity increase; $400K+ annual savings vs. SaaS; Zero data exfiltration risk',
+                  competitiveEdge: 'Only open source option providing Copilot-level capabilities with complete enterprise control and transparency'
+                }
+              ]
+            },
+            government: {
+              name: 'Government & Critical Infrastructure',
+              color: 'blue',
+              description: 'Federal Agencies, Defense, Public Sector',
+              keyConsiderations: [
+                'ITAR and export control compliance requirements',
+                'FedRAMP and government security standards',
+                'Western-developed alternative to adversarial AI',
+                'Air-gapped and classified environment support'
+              ],
+              useCases: [
+                {
+                  id: 'gov-1',
+                  name: 'Sovereign AI for National Security',
+                  shortPitch: 'Western-developed, inspectable AI for sensitive government applications',
+                  problemSolved: 'Government agencies cannot use Chinese AI (DeepSeek) due to national security concerns, but also face challenges with closed US models due to auditability and sovereignty requirements.',
+                  howUsed: [
+                    'Deploy Reflection AI in air-gapped or classified environments',
+                    'Run AI workloads on government-controlled infrastructure',
+                    'Audit complete model architecture and training process for security validation',
+                    'Customize models for agency-specific applications without vendor dependencies'
+                  ],
+                  whyReflection: [
+                    'Western-developed open source eliminates supply chain security concerns',
+                    'Full transparency enables security clearance and ITAR compliance',
+                    'Self-hosting supports air-gapped and classified deployments',
+                    'No data transmission to external vendors or adversarial nations',
+                    'Community security researchers continuously audit for vulnerabilities'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Agency CIO / CTO', level: 'C-Suite', technical: true },
+                    { title: 'Cybersecurity Directors', level: 'Director', technical: true },
+                    { title: 'Government Contracting Officers', level: 'Manager', technical: false }
+                  ],
+                  gtmScenario: '"A defense agency requires AI for intelligence analysis but cannot use Chinese models or send classified data to commercial APIs. Reflection AI\'s open source, Western-developed model runs in their air-gapped environment. Full source code audit satisfies security requirements. Complete operational sovereignty."',
+                  keyMetrics: 'ITAR compliant; Air-gap deployable; 100% Western supply chain',
+                  competitiveEdge: 'Only enterprise-grade open source alternative providing both Western provenance and complete transparency - critical for national security applications'
+                },
+                {
+                  id: 'gov-2',
+                  name: 'Defense Contractor AI Integration',
+                  shortPitch: 'ITAR-compliant AI for defense and aerospace applications',
+                  problemSolved: 'Defense contractors face strict ITAR regulations prohibiting use of foreign AI or transmission of controlled technical data to third parties. Closed US models still create compliance risks.',
+                  howUsed: [
+                    'Integrate AI into defense systems with full ITAR compliance documentation',
+                    'Process controlled technical data on isolated contractor infrastructure',
+                    'Provide AI capabilities for classified programs and export-controlled projects',
+                    'Support government audits with complete model transparency'
+                  ],
+                  whyReflection: [
+                    'Open source license compatible with government contracting requirements',
+                    'Self-hosting eliminates third-party data processing concerns',
+                    'US-developed model satisfies Buy American and ITAR requirements',
+                    'Full auditability supports government security reviews',
+                    'No foreign components in AI supply chain'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Defense Program Directors', level: 'VP/Director', technical: false },
+                    { title: 'Compliance Officers', level: 'Director/Manager', technical: false },
+                    { title: 'Chief Engineers', level: 'Director', technical: true }
+                  ],
+                  gtmScenario: '"An aerospace defense contractor needs AI for technical documentation but faces ITAR restrictions. Reflection AI runs on their isolated network with zero external connectivity. Open source model passes government security review. Fully compliant AI capabilities without compromising controlled data."',
+                  keyMetrics: 'ITAR certified; Zero third-party data sharing; Full audit trail',
+                  competitiveEdge: 'Western open source + self-hosting = only viable AI option for ITAR and classified defense applications'
+                },
+                {
+                  id: 'gov-3',
+                  name: 'Public Sector Digital Transformation',
+                  shortPitch: 'Cost-effective AI for government agencies and services',
+                  problemSolved: 'Public sector organizations need AI for citizen services but face budget constraints, procurement complexity, and data sovereignty requirements that make commercial APIs impractical.',
+                  howUsed: [
+                    'Deploy AI for citizen services (chatbots, document processing, case management)',
+                    'Run on government cloud (AWS GovCloud, Azure Government) or on-premise',
+                    'Process citizen data with full privacy and sovereignty guarantees',
+                    'Scale services without per-query API costs impacting taxpayer budgets'
+                  ],
+                  whyReflection: [
+                    'Self-hosting provides predictable costs suitable for government budgets',
+                    'Open source eliminates vendor lock-in and supports competitive procurement',
+                    'Data sovereignty meets government privacy and security mandates',
+                    'Transparency enables public accountability and oversight',
+                    'Community support reduces dependence on single commercial vendor'
+                  ],
+                  buyerPersonas: [
+                    { title: 'State/Local CIOs', level: 'C-Suite', technical: true },
+                    { title: 'Digital Service Directors', level: 'Director', technical: false },
+                    { title: 'Procurement Officers', level: 'Manager', technical: false }
+                  ],
+                  gtmScenario: '"A state government deploys Reflection AI for unemployment benefits processing. Self-hosted on state infrastructure, it handles 100K+ citizen inquiries monthly at fixed infrastructure cost vs. $50K+/month for commercial APIs. Citizen data never leaves state servers. Open procurement satisfies competitive bidding requirements."',
+                  keyMetrics: '10x cost reduction vs. commercial APIs; 100% data sovereignty; Competitive procurement compliant',
+                  competitiveEdge: 'Open source + self-hosting enables government AI adoption at taxpayer-friendly costs with full transparency and accountability'
+                }
+              ]
+            },
+            regulated: {
+              name: 'Regulated Industries',
+              color: 'purple',
+              description: 'Financial Services, Healthcare, Legal, Compliance-Heavy Sectors',
+              keyConsiderations: [
+                'Data residency and sovereignty requirements',
+                'Regulatory auditability and model explainability',
+                'On-premise deployment for sensitive data',
+                'Fine-tuning on proprietary domain knowledge'
+              ],
+              useCases: [
+                {
+                  id: 'reg-1',
+                  name: 'Financial Services Compliance & Analysis',
+                  shortPitch: 'Self-hosted AI for banking without regulatory risk',
+                  problemSolved: 'Financial institutions face strict data privacy regulations (GDPR, CCPA, SOX) and cannot send sensitive financial data to third-party AI APIs. Compliance teams need auditability that closed models cannot provide.',
+                  howUsed: [
+                    'Deploy AI for regulatory document analysis and compliance monitoring',
+                    'Process sensitive financial data (transactions, KYC, AML) on internal infrastructure',
+                    'Fine-tune models on internal regulatory interpretations and policies',
+                    'Provide complete audit trail and model explainability for regulators'
+                  ],
+                  whyReflection: [
+                    'Self-hosting ensures customer financial data never leaves the institution',
+                    'Open source model enables regulatory audit and validation',
+                    'Fine-tuning on proprietary compliance knowledge creates competitive advantage',
+                    'No risk of training data contamination or inadvertent disclosure',
+                    'Predictable costs critical for financial planning and budgeting'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Chief Risk Officer / Chief Compliance Officer', level: 'C-Suite', technical: false },
+                    { title: 'Head of Data & Analytics', level: 'VP/Director', technical: true },
+                    { title: 'Regulatory Affairs Directors', level: 'Director', technical: false }
+                  ],
+                  gtmScenario: '"A regional bank uses Reflection AI for AML transaction monitoring and regulatory reporting. Self-hosted deployment means customer transaction data never leaves bank infrastructure. Fine-tuned on bank-specific risk policies for 40% better detection. Regulators approve based on complete model transparency and audit trail."',
+                  keyMetrics: '40% improvement in risk detection; 100% data residency compliance; Full regulatory auditability',
+                  competitiveEdge: 'Only AI solution providing enterprise capabilities with complete data sovereignty and regulatory transparency required for financial services'
+                },
+                {
+                  id: 'reg-2',
+                  name: 'Healthcare & Life Sciences AI',
+                  shortPitch: 'HIPAA-compliant AI without cloud exposure',
+                  problemSolved: 'Healthcare organizations need AI for clinical operations but face HIPAA restrictions on PHI transmission. Closed cloud APIs create unacceptable privacy risks and regulatory exposure.',
+                  howUsed: [
+                    'Process patient health information (PHI) in HIPAA-compliant on-premise environment',
+                    'Fine-tune models on de-identified clinical data for specialized medical applications',
+                    'Deploy AI for clinical documentation, coding, research without data leaving facility',
+                    'Provide complete audit trail for HIPAA compliance and security reviews'
+                  ],
+                  whyReflection: [
+                    'Self-hosting eliminates HIPAA concerns about PHI transmission to third parties',
+                    'Open source enables healthcare IT security validation and approval',
+                    'Fine-tuning on institutional knowledge (protocols, formularies) improves accuracy',
+                    'No Business Associate Agreement complications or vendor risk',
+                    'Research institutions can customize for specific medical domains'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Chief Medical Information Officer (CMIO)', level: 'C-Suite', technical: true },
+                    { title: 'VP of IT / CIO', level: 'VP', technical: true },
+                    { title: 'Privacy & Compliance Officers', level: 'Director', technical: false }
+                  ],
+                  gtmScenario: '"An academic medical center deploys Reflection AI for clinical trial matching and research literature analysis. Self-hosted on hospital servers ensures patient data never enters cloud APIs. Fine-tuned on institutional protocols for 60% more accurate patient-trial matching. HIPAA compliance simplified - no external data processing."',
+                  keyMetrics: '60% improvement in trial matching accuracy; Zero HIPAA violations; No BAA required',
+                  competitiveEdge: 'Self-hosted + open source = only viable AI option for organizations with absolute PHI privacy requirements and zero cloud risk tolerance'
+                },
+                {
+                  id: 'reg-3',
+                  name: 'Legal & Professional Services AI',
+                  shortPitch: 'Attorney-client privilege preserved with self-hosted AI',
+                  problemSolved: 'Law firms and professional services cannot use cloud AI due to attorney-client privilege, work product doctrine, and confidentiality obligations. Privileged communications cannot be transmitted to third parties.',
+                  howUsed: [
+                    'Analyze contracts, litigation documents, and legal research on firm infrastructure',
+                    'Fine-tune on firm precedents, strategies, and domain expertise',
+                    'Process confidential client matters without third-party exposure',
+                    'Enable AI-powered legal research maintaining privilege and confidentiality'
+                  ],
+                  whyReflection: [
+                    'Self-hosting preserves attorney-client privilege (no third-party disclosure)',
+                    'Open source allows law firm IT and security validation',
+                    'Fine-tuning on firm knowledge creates proprietary legal AI expertise',
+                    'No ethical concerns about client confidentiality or conflicts of interest',
+                    'Predictable costs important for client billing and firm economics'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Managing Partners / Firm Management', level: 'C-Suite', technical: false },
+                    { title: 'Chief Knowledge Officer', level: 'VP/Director', technical: false },
+                    { title: 'IT Directors', level: 'Director', technical: true }
+                  ],
+                  gtmScenario: '"A top-100 law firm implements Reflection AI for contract analysis and legal research. Self-hosted on firm servers preserves attorney-client privilege - client data never transmitted externally. Fine-tuned on firm expertise and precedents. 50% faster contract review, zero privilege concerns, competitive moat from proprietary legal AI."',
+                  keyMetrics: '50% faster contract review; Zero privilege waiver risk; Proprietary AI expertise',
+                  competitiveEdge: 'Only AI solution compatible with attorney-client privilege - self-hosting and open source eliminate ethical concerns about confidential client information'
+                }
+              ]
+            },
+            enterprise: {
+              name: 'Global Enterprises',
+              color: 'green',
+              description: 'Multinational Corporations, Cost-Conscious Organizations',
+              keyConsiderations: [
+                'Data localization and regional sovereignty requirements',
+                'Cost optimization vs. expensive API pricing',
+                'Avoiding vendor lock-in and ensuring flexibility',
+                'Custom AI capabilities as competitive differentiator'
+              ],
+              useCases: [
+                {
+                  id: 'ent-1',
+                  name: 'Enterprise Cost Optimization',
+                  shortPitch: 'Eliminate unpredictable AI API costs at scale',
+                  problemSolved: 'Large enterprises face millions in annual AI API costs that scale unpredictably with usage. CFOs demand cost certainty and procurement requires vendor diversity to avoid single-vendor dependence.',
+                  howUsed: [
+                    'Migrate from expensive per-token API pricing to self-hosted infrastructure',
+                    'Deploy Reflection AI on existing compute (cloud, on-prem, hybrid)',
+                    'Scale AI usage without proportional cost increase',
+                    'Consolidate AI spending under predictable infrastructure budget'
+                  ],
+                  whyReflection: [
+                    'Self-hosting converts variable API costs to fixed infrastructure costs',
+                    'Open source eliminates license fees and vendor lock-in',
+                    'Run unlimited inference with no per-query charges',
+                    'ROI improves dramatically as AI usage scales across organization',
+                    'Competitive with commercial APIs on capabilities but 10x cheaper at scale'
+                  ],
+                  buyerPersonas: [
+                    { title: 'CFO / Finance Leadership', level: 'C-Suite', technical: false },
+                    { title: 'CIO / Technology Leadership', level: 'C-Suite', technical: true },
+                    { title: 'Procurement / Strategic Sourcing', level: 'VP/Director', technical: false }
+                  ],
+                  gtmScenario: '"A Fortune 500 company spends $3M annually on AI API calls. By migrating to self-hosted Reflection AI, they achieve same capabilities for $300K infrastructure cost. 90% cost reduction. AI usage 5x increases with zero incremental cost. CFO converts variable spend to predictable CapEx."',
+                  keyMetrics: '80-90% cost reduction at scale; Unlimited usage at fixed cost; Zero vendor lock-in',
+                  competitiveEdge: 'Economics of self-hosting become overwhelming at enterprise scale - same capabilities as closed APIs for 10% of the cost'
+                },
+                {
+                  id: 'ent-2',
+                  name: 'Multi-Regional Data Sovereignty',
+                  shortPitch: 'Meet global data localization requirements',
+                  problemSolved: 'Multinational enterprises face data sovereignty laws (GDPR, China Cybersecurity Law, etc.) requiring data remain in specific jurisdictions. Cloud AI APIs cannot guarantee regional data residency.',
+                  howUsed: [
+                    'Deploy Reflection AI in each region (EU, China, US, etc.) on local infrastructure',
+                    'Process regional data without cross-border transmission',
+                    'Customize models for regional languages, regulations, and requirements',
+                    'Maintain consistent AI capabilities globally while respecting local data laws'
+                  ],
+                  whyReflection: [
+                    'Self-hosting enables complete control over data location and processing',
+                    'Open source allows deployment in any jurisdiction without export restrictions',
+                    'No third-party data processing agreements required',
+                    'Fine-tune models for regional languages and cultural context',
+                    'Satisfy both GDPR, Chinese data laws, and future sovereignty regulations'
+                  ],
+                  buyerPersonas: [
+                    { title: 'Global CIO / CTO', level: 'C-Suite', technical: true },
+                    { title: 'Chief Privacy Officer / DPO', level: 'C-Suite/VP', technical: false },
+                    { title: 'Regional IT Directors', level: 'Director', technical: true }
+                  ],
+                  gtmScenario: '"A global manufacturer operates in 40 countries with varying data laws. Reflection AI deploys on regional infrastructure (EU, China, US) ensuring local data never leaves jurisdiction. Open source bypasses export controls. Consistent AI capabilities globally while satisfying all sovereignty requirements. No legal risk from data transfers."',
+                  keyMetrics: 'Compliant in all jurisdictions; Zero cross-border data transfer; 40+ regional deployments',
+                  competitiveEdge: 'Only AI solution enabling true multi-regional deployment with guaranteed data sovereignty - critical for global enterprises'
+                },
+                {
+                  id: 'ent-3',
+                  name: 'Proprietary AI Competitive Advantage',
+                  shortPitch: 'Build custom AI moats through fine-tuning',
+                  problemSolved: 'Enterprises using generic commercial AI APIs have no competitive differentiation. Proprietary company knowledge, processes, and expertise cannot be captured in one-size-fits-all models.',
+                  howUsed: [
+                    'Fine-tune Reflection AI on proprietary company data and expertise',
+                    'Create custom AI capabilities competitors cannot replicate',
+                    'Integrate institutional knowledge into AI to amplify employee productivity',
+                    'Build AI-powered competitive advantages without sharing data with vendors'
+                  ],
+                  whyReflection: [
+                    'Open source enables fine-tuning on proprietary data without external exposure',
+                    'Self-hosting keeps competitive intelligence completely confidential',
+                    'Customization creates sustainable differentiation vs. generic AI users',
+                    'Capture institutional knowledge as proprietary AI asset',
+                    'No risk of competitors accessing your customizations via shared APIs'
+                  ],
+                  buyerPersonas: [
+                    { title: 'CEO / Business Leadership', level: 'C-Suite', technical: false },
+                    { title: 'Chief Strategy Officer', level: 'C-Suite', technical: false },
+                    { title: 'Head of AI/Innovation', level: 'VP/Director', technical: true }
+                  ],
+                  gtmScenario: '"A logistics company fine-tunes Reflection AI on 20 years of operational data and routing optimization knowledge. Their AI outperforms generic models by 40% on company-specific challenges. Self-hosting ensures competitive algorithms never leave their infrastructure. Custom AI becomes sustainable competitive moat."',
+                  keyMetrics: '40% improvement over generic AI; Proprietary competitive advantage; Zero knowledge leakage',
+                  competitiveEdge: 'Transform AI from commodity rental to proprietary competitive asset - only possible with open source and self-hosting'
+                }
+              ]
+            }
+          };
+
+          const searchResults = useMemo(() => {
+            if (!searchTerm) return null;
+            
+            const results = [];
+            Object.entries(gtmData).forEach(([industryKey, industry]) => {
+              industry.useCases.forEach(useCase => {
+                const searchLower = searchTerm.toLowerCase();
+                if (
+                  useCase.name.toLowerCase().includes(searchLower) ||
+                  useCase.shortPitch.toLowerCase().includes(searchLower) ||
+                  useCase.problemSolved.toLowerCase().includes(searchLower) ||
+                  useCase.buyerPersonas.some(p => p.title.toLowerCase().includes(searchLower))
+                ) {
+                  results.push({ ...useCase, industry: industry.name, industryKey });
+                }
+              });
+            });
+            return results;
+          }, [searchTerm]);
+
+          const copyToClipboard = (text, id) => {
+            navigator.clipboard.writeText(text);
+            setCopiedText(id);
+            setTimeout(() => setCopiedText(null), 2000);
+          };
+
+          const getColorClasses = (color) => {
+            const colors = {
+              cyan: {
+                bg: 'bg-emerald-900/20',
+                border: 'border-emerald-400',
+                text: 'text-emerald-400',
+                hover: 'hover:bg-emerald-900/30',
+                gradient: 'from-emerald-900 to-emerald-800'
+              },
+              blue: {
+                bg: 'bg-teal-900/20',
+                border: 'border-teal-400',
+                text: 'text-teal-400',
+                hover: 'hover:bg-teal-900/30',
+                gradient: 'from-teal-900 to-teal-800'
+              },
+              purple: {
+                bg: 'bg-green-900/20',
+                border: 'border-green-400',
+                text: 'text-green-400',
+                hover: 'hover:bg-green-900/30',
+                gradient: 'from-green-900 to-green-800'
+              },
+              green: {
+                bg: 'bg-lime-900/20',
+                border: 'border-lime-400',
+                text: 'text-lime-400',
+                hover: 'hover:bg-lime-900/30',
+                gradient: 'from-lime-900 to-lime-800'
+              }
+            };
+            return colors[color] || colors.cyan;
+          };
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+              {/* Header */}
+              <div className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-lg">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                  <div className="mb-4">
+                    <div>
+                      <h1 className="text-3xl font-bold text-white mb-1">
+                        Reflection AI Tech Strategy
+                      </h1>
+                      <p className="text-slate-400">
+                        Open Source, Sovereign AI for Enterprise & Government
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search use cases, buyer personas, industries..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all text-white placeholder-slate-400"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Search Results */}
+              {searchResults && searchResults.length > 0 && (
+                <div className="max-w-7xl mx-auto px-6 py-6">
+                  <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-3 text-slate-200">
+                      Found {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+                    </h3>
+                    <div className="space-y-2">
+                      {searchResults.map(result => (
+                        <button
+                          key={result.id}
+                          onClick={() => {
+                            setSelectedIndustry(result.industryKey);
+                            setExpandedUseCase(result.id);
+                            setSearchTerm('');
+                          }}
+                          className="w-full text-left p-3 bg-slate-800/50 hover:bg-slate-800 rounded-lg border border-slate-700 transition-colors"
+                        >
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <div className="font-medium text-white">{result.name}</div>
+                              <div className="text-sm text-slate-400 mt-1">{result.industry} • {result.shortPitch}</div>
+                            </div>
+                            <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Main Content - INDUSTRIES FIRST */}
+              <div className="max-w-7xl mx-auto px-6 py-8">
+                {/* Industry Categories */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  {Object.entries(gtmData).map(([key, industry]) => {
+                    const colors = getColorClasses(industry.color);
+                    const isSelected = selectedIndustry === key;
+                    
+                    return (
+                      <button
+                        key={key}
+                        onClick={() => setSelectedIndustry(isSelected ? null : key)}
+                        className={`text-left p-6 rounded-xl border-2 transition-all ${
+                          isSelected 
+                            ? `${colors.border} bg-gradient-to-br ${colors.gradient}` 
+                            : 'border-slate-800 bg-slate-900/50 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          {isSelected ? (
+                            <ChevronDown className="w-6 h-6 text-white" />
+                          ) : (
+                            <ChevronRight className="w-6 h-6 text-slate-400" />
+                          )}
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-2">{industry.name}</h3>
+                        <p className="text-sm text-slate-400 mb-4">{industry.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Selected Industry Details */}
+                {selectedIndustry && (
+                  <div className="space-y-6 mb-12">
+                    {/* Key Considerations */}
+                    <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Shield className="w-5 h-5 text-emerald-400" />
+                        <h3 className="text-lg font-semibold text-white">
+                          Key Value Drivers for {gtmData[selectedIndustry].name}
+                        </h3>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {gtmData[selectedIndustry].keyConsiderations.map((consideration, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-slate-300">{consideration}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Use Cases */}
+                    <div className="space-y-4">
+                      {gtmData[selectedIndustry].useCases.map((useCase) => {
+                        const isExpanded = expandedUseCase === useCase.id;
+                        const colors = getColorClasses(gtmData[selectedIndustry].color);
+
+                        return (
+                          <div
+                            key={useCase.id}
+                            className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden"
+                          >
+                            {/* Use Case Header */}
+                            <button
+                              onClick={() => setExpandedUseCase(isExpanded ? null : useCase.id)}
+                              className="w-full p-6 text-left hover:bg-slate-800/30 transition-colors"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-3 mb-2">
+                                    <h4 className="text-xl font-semibold text-white">{useCase.name}</h4>
+                                    <span className={`px-2 py-0.5 text-xs ${colors.bg} ${colors.text} rounded`}>
+                                      {useCase.id}
+                                    </span>
+                                  </div>
+                                  <p className={`text-sm ${colors.text} mb-3 font-medium`}>
+                                    {useCase.shortPitch}
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {useCase.buyerPersonas.slice(0, 3).map((persona, idx) => (
+                                      <div key={idx} className="flex items-center gap-1 px-2 py-1 bg-slate-800 rounded text-xs text-slate-300">
+                                        <Users className="w-3 h-3" />
+                                        {persona.title}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                {isExpanded ? (
+                                  <ChevronDown className="w-6 h-6 text-slate-400 flex-shrink-0 ml-4" />
+                                ) : (
+                                  <ChevronRight className="w-6 h-6 text-slate-400 flex-shrink-0 ml-4" />
+                                )}
+                              </div>
+                            </button>
+
+                            {/* Expanded Content */}
+                            {isExpanded && (
+                              <div className="border-t border-slate-800 p-6 space-y-6">
+                                {/* Problem Being Solved */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Target className="w-5 h-5 text-red-400" />
+                                    <h5 className="font-semibold text-white">Problem Being Solved</h5>
+                                  </div>
+                                  <p className="text-slate-300 leading-relaxed">{useCase.problemSolved}</p>
+                                </div>
+
+                                {/* How Reflection AI is Used */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Code className="w-5 h-5 text-emerald-400" />
+                                    <h5 className="font-semibold text-white">How Reflection AI is Used</h5>
+                                  </div>
+                                  <ul className="space-y-2">
+                                    {useCase.howUsed.map((item, idx) => (
+                                      <li key={idx} className="flex items-start gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                                        <span className="text-slate-300">{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                {/* Why Reflection AI */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Lightbulb className="w-5 h-5 text-yellow-400" />
+                                    <h5 className="font-semibold text-white">Why Reflection AI</h5>
+                                  </div>
+                                  <ul className="space-y-2">
+                                    {useCase.whyReflection.map((item, idx) => (
+                                      <li key={idx} className="flex items-start gap-2">
+                                        <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                        <span className="text-slate-300">{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                {/* Buyer Personas */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Users className="w-5 h-5 text-purple-400" />
+                                    <h5 className="font-semibold text-white">Example Buyer Personas</h5>
+                                  </div>
+                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    {useCase.buyerPersonas.map((persona, idx) => (
+                                      <div key={idx} className="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                                        <div className="font-medium text-white text-sm mb-1">{persona.title}</div>
+                                        <div className="flex items-center gap-2 text-xs text-slate-400">
+                                          <span>{persona.level}</span>
+                                          {persona.technical && (
+                                            <span className="px-1.5 py-0.5 bg-slate-700 rounded">Technical</span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* GTM Scenario */}
+                                <div className="bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 border border-emerald-500/30 rounded-lg p-4">
+                                  <div className="flex items-start justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                                      <h5 className="font-semibold text-emerald-400 text-sm">Example Scenario</h5>
+                                    </div>
+                                    <button
+                                      onClick={() => copyToClipboard(useCase.gtmScenario, useCase.id)}
+                                      className="p-1 hover:bg-emerald-900/30 rounded transition-colors"
+                                    >
+                                      {copiedText === useCase.id ? (
+                                        <Check className="w-4 h-4 text-green-400" />
+                                      ) : (
+                                        <Copy className="w-4 h-4 text-emerald-400" />
+                                      )}
+                                    </button>
+                                  </div>
+                                  <p className="text-slate-200 leading-relaxed italic">{useCase.gtmScenario}</p>
+                                </div>
+
+                                {/* Key Metrics & Competitive Edge */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div className="p-4 bg-green-900/10 border border-green-500/30 rounded-lg">
+                                    <div className="text-xs text-green-400 font-medium mb-1">Key Metrics</div>
+                                    <div className="text-sm text-slate-200">{useCase.keyMetrics}</div>
+                                  </div>
+                                  <div className="p-4 bg-emerald-900/10 border border-emerald-500/30 rounded-lg">
+                                    <div className="text-xs text-emerald-400 font-medium mb-1">Competitive Edge</div>
+                                    <div className="text-sm text-slate-200">{useCase.competitiveEdge}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Empty State - Between Industries and Market Updates */}
+                {!selectedIndustry && (
+                  <div className="text-center py-12 mb-12">
+                    <div className="text-slate-400 text-lg mb-2">Select an industry to view use cases</div>
+                    <p className="text-slate-500">Click on any category to explore open source AI solutions</p>
+                  </div>
+                )}
+
+                {/* MARKET UPDATES - Now AFTER Industries */}
+                <div className="mb-8 pt-8 border-t border-slate-800">
+                  {/* Section Header */}
+                  <div className="mb-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <h2 className="text-2xl font-bold text-white">Market Updates</h2>
+                      <div className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded text-xs text-emerald-400 font-medium">
+                        Live Intelligence
+                      </div>
+                    </div>
+                    <p className="text-slate-400 text-sm">
+                      Key developments shaping the AI landscape
+                    </p>
+                  </div>
+
+                  {/* Intelligence Grid - No Categories */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    
+                    {/* Card 1 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              Business adoption of OpenAI products climbed two percentage points to 36.8%
+                            </h4>
+                            <a 
+                              href="https://www.businessinsider.com/openai-business-spending-ai-models-jumps-record-ramp-data-2026-1" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            Increasing enterprise standardization on closed AI platforms
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              China's share of global "open" AI model downloads surpassed the US
+                            </h4>
+                            <a 
+                              href="https://www.ft.com/content/d9af562c-1d37-41b7-9aa7-a838dce3f571" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            MIT and Hugging Face study shows shifting dominance in open-source AI development
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 3 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              OSTP Director named Reflection as part of solution for US open-source AI landscape
+                            </h4>
+                            <a 
+                              href="https://www.linkedin.com/posts/becky-sosnov-43221949_yesterday-something-important-happened-on-activity-7417675805478068224-JfAO" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            House Science Committee hearing highlighted US need to lead in open-weight AI development
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 4 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              California enacted Transparency in Frontier AI Act (SB 53)
+                            </h4>
+                            <a 
+                              href="https://www.brookings.edu/articles/what-is-californias-ai-safety-law/" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            Requires frontier model developers to disclose risks, implement safety frameworks, and protect whistleblowers. Effective January 1, 2026
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 5 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              EU AI Act enforcement begins with steep penalties
+                            </h4>
+                            <a 
+                              href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            High-risk AI systems require technical documentation and auditability impossible with proprietary models
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 6 */}
+                    <div className="bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-slate-700/50 rounded-lg p-5 hover:border-slate-600 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 flex-shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="text-white font-medium text-sm leading-tight flex-1">
+                              Federal vs. state AI regulation diverging amid uncertainty
+                            </h4>
+                            <a 
+                              href="https://www.gray-robinson.com/insights/post/5267/grayrobinson-business-law-insight-federal-vs-state-ai-regulation-navigating-divergent-paths-in-an-uncertain-legal-landscape" 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="flex-shrink-0 text-emerald-400 hover:text-emerald-300 transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">
+                            Regulatory uncertainty creating technology selection risk for systems with multi-year lifecycles
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Empty State - removed from here, now above Market Updates */}
+              </div>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<ReflectionAITechStrategy />, document.getElementById('root'));
+    </script>
+</body>
+</html>
